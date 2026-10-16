@@ -26,8 +26,8 @@ const people = [
 export function CoupleSection() {
   return (
     <section className="relative overflow-hidden border-t border-border px-6 py-20 md:py-32">
-      <FloralCorner corner="top-right" className="-right-10 -top-6" />
-      <FloralCorner corner="bottom-left" className="-bottom-12 -left-10" />
+      <FloralCorner corner="top-right" className="-right-4 -top-3 sm:-right-10 sm:-top-6" />
+      <FloralCorner corner="bottom-left" className="-bottom-5 -left-5 sm:-bottom-12 sm:-left-10" />
       <Reveal className="relative z-10 mx-auto mb-12 max-w-2xl text-center sm:mb-14">
         <p className="font-sans text-xs tracking-[0.4em] text-gold uppercase">The two of us</p>
         <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">Bride &amp; Groom</h2>

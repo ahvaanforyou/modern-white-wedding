@@ -38,8 +38,8 @@ export function App() {
           className="absolute inset-0 h-full w-full animate-slow-zoom object-cover"
         />
         <div className="absolute inset-0 bg-ink/20" />
-        <FloralCorner corner="top-left" prominent className="-left-10 -top-8" />
-        <FloralCorner corner="bottom-right" prominent className="-bottom-12 -right-12" />
+        <FloralCorner corner="top-left" prominent className="-left-4 -top-3 sm:-left-10 sm:-top-8" />
+        <FloralCorner corner="bottom-right" prominent className="-bottom-5 -right-5 sm:-bottom-12 sm:-right-12" />
         <div className="relative z-10 mx-auto w-full max-w-3xl border border-background/50 bg-background/70 px-6 py-12 text-center shadow-[var(--shadow-soft)] backdrop-blur-md sm:px-12 sm:py-16">
           <Reveal direction="none">
             <p className="font-sans text-[0.7rem] tracking-[0.5em] text-ink/75 uppercase">
@@ -66,8 +66,8 @@ export function App() {
 
       {/* Countdown */}
       <SectionFade className="relative overflow-hidden px-4 py-20 sm:px-6 md:py-32">
-        <FloralCorner corner="top-right" className="-right-14 -top-10" />
-        <FloralCorner corner="bottom-left" className="-bottom-16 -left-16" />
+        <FloralCorner corner="top-right" className="-right-4 -top-3 sm:-right-14 sm:-top-10" />
+        <FloralCorner corner="bottom-left" className="-bottom-5 -left-5 sm:-bottom-16 sm:-left-16" />
         <Reveal className="relative z-10 mx-auto max-w-6xl text-center">
           <h2 className="font-display text-4xl text-ink md:text-5xl">Counting the days</h2>
           <p className="mt-4 font-sans text-xs tracking-[0.25em] text-muted-foreground uppercase sm:text-sm">
@@ -81,8 +81,8 @@ export function App() {
 
       {/* Story */}
       <SectionFade className="relative overflow-hidden px-6 py-20 md:py-28 border-t border-border/50">
-        <FloralCorner corner="top-left" className="-left-14 -top-10" />
-        <FloralCorner corner="bottom-right" className="-bottom-12 -right-12" />
+        <FloralCorner corner="top-left" className="-left-4 -top-3 sm:-left-14 sm:-top-10" />
+        <FloralCorner corner="bottom-right" className="-bottom-5 -right-5 sm:-bottom-12 sm:-right-12" />
         <div className="relative z-10 mx-auto grid max-w-5xl items-center gap-10 md:grid-cols-2 md:gap-14">
           <Reveal direction="left">
             <div className="overflow-hidden rounded-sm shadow-[var(--shadow-soft)]">
@@ -143,8 +143,8 @@ export function App() {
 
       {/* Order of the day */}
       <SectionFade className="relative overflow-hidden px-6 py-20 md:py-32 border-t border-border/50">
-        <FloralCorner corner="top-left" className="-left-14 -top-10" />
-        <FloralCorner corner="bottom-right" className="-bottom-16 -right-16" />
+        <FloralCorner corner="top-left" className="-left-4 -top-3 sm:-left-14 sm:-top-10" />
+        <FloralCorner corner="bottom-right" className="-bottom-5 -right-5 sm:-bottom-16 sm:-right-16" />
         <Reveal className="relative z-10 mx-auto mb-12 max-w-2xl text-center sm:mb-14">
           <p className="font-sans text-xs tracking-[0.4em] text-gold uppercase">The day itself</p>
           <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">Order of events</h2>
@@ -156,8 +156,8 @@ export function App() {
 
       {/* Venue & details */}
       <SectionFade className="relative overflow-hidden border-t border-border px-6 py-20 md:py-32">
-        <FloralCorner corner="top-right" className="-right-12 -top-8" />
-        <FloralCorner corner="bottom-left" className="-bottom-14 -left-14" />
+        <FloralCorner corner="top-right" className="-right-4 -top-3 sm:-right-12 sm:-top-8" />
+        <FloralCorner corner="bottom-left" className="-bottom-5 -left-5 sm:-bottom-14 sm:-left-14" />
         <div className="relative z-10 mx-auto grid max-w-4xl gap-10 text-center sm:gap-12 md:grid-cols-3 md:text-left">
           {[
             { label: "Where", lines: ["Villa Serena", "18 Olive Grove Road", "Lisbon, Portugal"] },
@@ -182,8 +182,8 @@ export function App() {
 
       {/* RSVP */}
       <SectionFade className="relative overflow-hidden border-t border-border px-6 py-20 md:py-32">
-        <FloralCorner corner="top-left" className="-left-14 -top-10" />
-        <FloralCorner corner="bottom-right" className="-bottom-16 -right-16" />
+        <FloralCorner corner="top-left" className="-left-4 -top-3 sm:-left-14 sm:-top-10" />
+        <FloralCorner corner="bottom-right" className="-bottom-5 -right-5 sm:-bottom-16 sm:-right-16" />
         <Reveal className="relative z-10 mx-auto mb-10 max-w-2xl text-center sm:mb-12">
           <p className="font-sans text-xs tracking-[0.4em] text-gold uppercase">Kindly reply</p>
           <h2 className="mt-4 font-display text-4xl text-ink md:text-5xl">Will you join us?</h2>
@@ -198,8 +198,8 @@ export function App() {
 
       {/* Closing */}
       <footer className="relative overflow-hidden border-t border-border px-6 py-20 sm:py-24 text-center">
-        <FloralCorner corner="bottom-left" prominent className="-bottom-20 -left-16" />
-        <FloralCorner corner="bottom-right" prominent className="-bottom-20 -right-16" />
+        <FloralCorner corner="bottom-left" prominent className="-bottom-6 -left-4 sm:-bottom-20 sm:-left-16" />
+        <FloralCorner corner="bottom-right" prominent className="-bottom-6 -right-4 sm:-bottom-20 sm:-right-16" />
         <Reveal className="relative z-10">
           <Divider />
           <p className="mt-8 sm:mt-10 font-display text-2xl italic leading-relaxed text-ink sm:text-3xl md:text-4xl">

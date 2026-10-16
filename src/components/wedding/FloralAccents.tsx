@@ -28,10 +28,10 @@ export function FloralCorner({
       width={1536}
       height={1536}
       className={cn(
-        "pointer-events-none absolute z-0 select-none object-contain opacity-70 drop-shadow-[var(--shadow-botanical)]",
+        "pointer-events-none absolute z-0 select-none object-contain opacity-80 drop-shadow-[var(--shadow-botanical)]",
         prominent
-          ? "w-[min(44vw,34rem)] max-sm:w-[13rem] max-sm:opacity-55"
-          : "w-[min(30vw,24rem)] max-sm:w-[9.5rem] max-sm:opacity-40",
+          ? "w-[min(44vw,34rem)] max-sm:w-[17rem] max-sm:opacity-85"
+          : "w-[min(30vw,24rem)] max-sm:w-[13.5rem] max-sm:opacity-75",
         cornerTransforms[corner],
         className,
       )}

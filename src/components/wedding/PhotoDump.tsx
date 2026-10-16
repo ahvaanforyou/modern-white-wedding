@@ -6,9 +6,6 @@ import { FloralCorner } from "@/components/wedding/FloralAccents";
 import photo1 from "@/assets/story-1.jpg";
 import photo2 from "@/assets/story-2.jpg";
 import photo3 from "@/assets/hero.jpg";
-import photo4 from "@/assets/event-cocktail.jpg";
-import photo5 from "@/assets/event-dance.jpg";
-import photo6 from "@/assets/event-welcome.jpg";
 
 interface PhotoItem {
   id: number;
@@ -33,47 +30,20 @@ const photos: PhotoItem[] = [
   {
     id: 2,
     src: photo2,
-    title: "Quiet Sunday Morning",
+    title: "The Kitchen Proposal",
     caption: "Two months of hiding a velvet box in a sock drawer, answered before the question was finished.",
     date: "May 2025",
     location: "Our Kitchen Table",
-    rotation: "rotate-1 sm:rotate-2",
+    rotation: "rotate-1 sm:rotate-1",
   },
   {
     id: 3,
     src: photo3,
     title: "Finding Villa Serena",
-    caption: "The afternoon we walked through the olive grove and knew immediately this was where we wanted everyone to gather.",
+    caption: "The afternoon we walked through the olive grove and knew immediately this was our venue.",
     date: "September 2025",
-    location: "Sintra / Lisbon",
-    rotation: "-rotate-2 sm:-rotate-1",
-  },
-  {
-    id: 4,
-    src: photo4,
-    title: "Sunset Wine & Canapés",
-    caption: "Testing menus with our parents, laughing until our faces hurt.",
-    date: "January 2026",
-    location: "Lisbon Terrace",
-    rotation: "rotate-2 sm:rotate-1",
-  },
-  {
-    id: 5,
-    src: photo5,
-    title: "First Dance Practice",
-    caption: "Stepping on each other's toes in the living room at midnight.",
-    date: "August 2026",
-    location: "Living Room Floor",
-    rotation: "-rotate-1 sm:-rotate-2",
-  },
-  {
-    id: 6,
-    src: photo6,
-    title: "Summer in the Garden",
-    caption: "Sunlight through the leaves, talking about what the future might look like.",
-    date: "July 2024",
-    location: "Algarve Coast",
-    rotation: "rotate-1 sm:rotate-2",
+    location: "Lisbon, Portugal",
+    rotation: "-rotate-1 sm:rotate-2",
   },
 ];
 
@@ -106,8 +76,8 @@ export function PhotoDump() {
 
   return (
     <section className="relative overflow-hidden border-t border-border px-6 py-20 md:py-32 bg-[#faf9f6]">
-      <FloralCorner corner="top-left" className="-left-14 -top-10" />
-      <FloralCorner corner="bottom-right" className="-bottom-16 -right-16" />
+      <FloralCorner corner="top-left" className="-left-4 -top-3 sm:-left-14 sm:-top-10" />
+      <FloralCorner corner="bottom-right" className="-bottom-5 -right-5 sm:-bottom-16 sm:-right-16" />
 
       {/* Section Header */}
       <Reveal className="relative z-10 mx-auto mb-14 max-w-2xl text-center">

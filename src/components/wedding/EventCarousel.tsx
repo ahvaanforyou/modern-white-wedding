@@ -38,7 +38,7 @@ export function EventCarousel() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-sm bg-muted shadow-[var(--shadow-soft)] sm:aspect-[16/9]">
+      <div className="relative aspect-[4/5] min-h-[460px] w-full overflow-hidden rounded-md bg-muted shadow-[var(--shadow-soft)] sm:aspect-[16/10] sm:min-h-[420px] md:aspect-[16/9] md:min-h-0">
         {events.map((event, i) => (
           <img
             key={event.title}
@@ -54,14 +54,18 @@ export function EventCarousel() {
           />
         ))}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 to-transparent" />
 
-        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-6 text-primary-foreground sm:p-10">
-          <span className="font-sans text-xs tracking-[0.4em] text-gold-soft uppercase">{active.time}</span>
-          <h3 key={active.title} className="animate-fade-in font-display text-3xl sm:text-5xl">
+        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2.5 p-6 text-primary-foreground sm:p-10">
+          <span className="font-sans text-xs sm:text-sm tracking-[0.4em] text-gold-soft uppercase font-semibold">
+            {active.time}
+          </span>
+          <h3 key={active.title} className="animate-fade-in font-display text-3xl sm:text-5xl leading-tight">
             {active.title}
           </h3>
-          <p className="max-w-md font-sans text-sm text-primary-foreground/80">{active.note}</p>
+          <p className="max-w-md font-sans text-sm sm:text-base text-primary-foreground/85 leading-relaxed">
+            {active.note}
+          </p>
         </div>
 
         <button
