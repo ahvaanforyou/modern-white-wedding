@@ -161,10 +161,11 @@ export function IntroGate() {
           You are invited
         </p>
 
-        {/* Central Circle Seal */}
-        <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#c9a767] via-[#ba9452] to-[#967439] font-display text-3xl sm:text-4xl italic text-[#ffffff] shadow-[0_16px_36px_-6px_rgba(120,85,30,0.5)] ring-4 ring-[#eedbb4]/80 transition-transform duration-300 hover:scale-105 active:scale-95 animate-pulse">
-          <span className="drop-shadow-sm">A&amp;R</span>
+        {/* Central Circle Seal - Bold, solid, stable, non-blinking */}
+        <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-full bg-gradient-to-br from-[#d4af37] via-[#b88c3a] to-[#7f5b1d] font-display text-3xl sm:text-4xl font-bold italic text-white shadow-[0_20px_45px_-6px_rgba(80,55,15,0.55)] ring-4 ring-[#e6ca85] transition-transform duration-300 hover:scale-105 active:scale-95">
+          <span className="drop-shadow-md tracking-tight font-bold">A&amp;R</span>
           <div className="pointer-events-none absolute inset-1.5 rounded-full border border-dashed border-white/50" />
+          <div className="pointer-events-none absolute inset-0 rounded-full border border-amber-200/40" />
         </div>
 
         {/* Bottom Text */}
