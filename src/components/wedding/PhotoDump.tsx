@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { Reveal } from "@/components/wedding/Reveal";
 import { FloralCorner } from "@/components/wedding/FloralAccents";
 
@@ -130,33 +130,31 @@ export function PhotoDump() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") openLightbox(item);
                 }}
-                className={`group relative cursor-pointer rounded-sm bg-white p-3.5 pb-6 shadow-[0_12px_30px_-10px_rgba(80,60,40,0.18)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-10px_rgba(80,60,40,0.3)] hover:rotate-0 ${item.rotation}`}
+                className={`group relative cursor-pointer rounded-sm border border-border/70 bg-white p-3.5 pb-6 shadow-[0_12px_28px_-10px_rgba(80,60,40,0.16)] transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.03] hover:rotate-0 hover:border-gold/50 hover:shadow-[0_24px_45px_-10px_rgba(80,60,40,0.3)] ${item.rotation}`}
               >
-                {/* Photo container */}
+                {/* Photo container - 100% crisp, smooth zoom hover without blur */}
                 <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xs bg-muted">
                   <img
                     src={item.src}
                     alt={item.title}
                     loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
                   />
-                  {/* Hover Overlay with Zoom Icon */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-ink/20 opacity-0 backdrop-blur-xs transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-ink shadow-md">
-                      <ZoomIn className="h-5 w-5" />
-                    </span>
+                  {/* Subtle expand icon badge on hover */}
+                  <div className="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/40 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:scale-105">
+                    <Maximize2 className="h-4 w-4" />
                   </div>
                 </div>
 
-                {/* Polaroid caption & handwritten info */}
+                {/* Polaroid caption info */}
                 <div className="mt-4 px-1 text-center">
-                  <h3 className="font-display text-xl text-ink font-medium">
+                  <h3 className="font-display text-xl text-ink font-medium group-hover:text-gold transition-colors duration-300">
                     {item.title}
                   </h3>
                   <p className="mt-1 font-sans text-xs text-muted-foreground line-clamp-2">
                     {item.caption}
                   </p>
-                  <div className="mt-2.5 flex items-center justify-center gap-2 font-sans text-[0.65rem] tracking-wider text-gold uppercase">
+                  <div className="mt-2.5 flex items-center justify-center gap-2 font-sans text-[0.65rem] tracking-wider text-gold uppercase font-medium">
                     <span>{item.location}</span>
                     <span>•</span>
                     <span>{item.date}</span>
@@ -174,15 +172,15 @@ export function PhotoDump() {
           role="dialog"
           aria-modal="true"
           aria-label={activePhoto.title}
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-ink/90 p-4 sm:p-8 backdrop-blur-md animate-fade-in"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-ink/90 p-4 sm:p-8 backdrop-blur-sm animate-fade-in"
           onClick={closeLightbox}
         >
-          {/* Close button */}
+          {/* Close button ('X' / into mark) */}
           <button
             type="button"
             onClick={closeLightbox}
             aria-label="Close photo preview"
-            className="cursor-pointer absolute top-5 right-5 z-20 rounded-full bg-white/10 p-2.5 text-white backdrop-blur-md transition-colors hover:bg-white/25"
+            className="cursor-pointer absolute top-5 right-5 z-20 rounded-full bg-white/15 p-2.5 text-white transition-all hover:bg-white/30 hover:scale-105 active:scale-95"
           >
             <X className="h-6 w-6" />
           </button>
@@ -195,7 +193,7 @@ export function PhotoDump() {
               prevPhoto();
             }}
             aria-label="Previous photo"
-            className="cursor-pointer absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/10 p-3 text-white backdrop-blur-md transition-colors hover:bg-white/25"
+            className="cursor-pointer absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/15 p-3 text-white transition-all hover:bg-white/30 hover:scale-105 active:scale-95"
           >
             <ChevronLeft className="h-6 w-6" />
           </button>
@@ -208,7 +206,7 @@ export function PhotoDump() {
               nextPhoto();
             }}
             aria-label="Next photo"
-            className="cursor-pointer absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/10 p-3 text-white backdrop-blur-md transition-colors hover:bg-white/25"
+            className="cursor-pointer absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 rounded-full bg-white/15 p-3 text-white transition-all hover:bg-white/30 hover:scale-105 active:scale-95"
           >
             <ChevronRight className="h-6 w-6" />
           </button>
@@ -233,7 +231,7 @@ export function PhotoDump() {
               <p className="mt-2 font-sans text-sm text-muted-foreground max-w-lg mx-auto">
                 {activePhoto.caption}
               </p>
-              <div className="mt-3 flex items-center justify-center gap-2 font-sans text-xs tracking-widest text-gold uppercase">
+              <div className="mt-3 flex items-center justify-center gap-2 font-sans text-xs tracking-widest text-gold uppercase font-medium">
                 <span>{activePhoto.location}</span>
                 <span>•</span>
                 <span>{activePhoto.date}</span>
