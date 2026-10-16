@@ -1,30 +1,10 @@
 import { useEffect, useState } from "react";
-
-type Variant = "envelope" | "curtain" | "seal";
-
-const VARIANTS: Variant[] = ["envelope", "curtain", "seal"];
-
-function Seal({ pulse }: { pulse?: boolean }) {
-  return (
-    <span
-      className={`grid h-24 w-24 place-items-center rounded-full bg-gold font-display text-3xl italic text-background shadow-[var(--shadow-soft)] ring-4 ring-gold-soft sm:h-28 sm:w-28 ${
-        pulse ? "animate-pulse" : ""
-      }`}
-    >
-      A&amp;R
-    </span>
-  );
-}
+import { audioManager } from "@/lib/audioManager";
 
 export function IntroGate() {
-  const [variant, setVariant] = useState<Variant>("envelope");
   const [opening, setOpening] = useState(false);
   const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    const v = new URLSearchParams(window.location.search).get("intro") as Variant | null;
-    if (v && VARIANTS.includes(v)) setVariant(v);
-  }, []);
+  const [step, setStep] = useState<"idle" | "seal-break" | "flap-open" | "card-rise" | "fade-out">("idle");
 
   useEffect(() => {
     document.body.style.overflow = done ? "" : "hidden";
@@ -35,91 +15,158 @@ export function IntroGate() {
 
   if (done) return null;
 
-  function open() {
+  async function handleOpen() {
     if (opening) return;
     setOpening(true);
-    window.dispatchEvent(new Event("invitation-opened"));
-    setTimeout(() => setDone(true), 1600);
+
+    // Guaranteed synchronous audio start within user gesture
+    audioManager.play();
+
+    // Sequence stages
+    setStep("seal-break");
+
+    setTimeout(() => {
+      setStep("flap-open");
+    }, 400);
+
+    setTimeout(() => {
+      setStep("card-rise");
+    }, 900);
+
+    setTimeout(() => {
+      setStep("fade-out");
+    }, 1700);
+
+    setTimeout(() => {
+      setDone(true);
+    }, 2300);
   }
 
-  const ease = "transition-all duration-[1400ms] ease-[cubic-bezier(0.7,0,0.2,1)]";
-
-  const prompt = (
-    <div
-      className={`flex flex-col items-center gap-6 text-center ${ease} ${
-        opening ? "scale-90 opacity-0" : ""
-      }`}
-    >
-      <p className="font-sans text-[0.65rem] tracking-[0.5em] text-ink/70 uppercase">
-        You are invited
-      </p>
-      <Seal pulse={!opening} />
-      <p className="font-display text-2xl italic text-ink">Tap to open</p>
-    </div>
-  );
+  const isFlapOpen = step === "flap-open" || step === "card-rise" || step === "fade-out";
+  const isCardUp = step === "card-rise" || step === "fade-out";
+  const isFadeOut = step === "fade-out";
 
   return (
-    <button
-      type="button"
-      onClick={open}
-      aria-label="Open the invitation"
-      className="fixed inset-0 z-[100] block h-full w-full cursor-pointer overflow-hidden text-left"
+    <div
+      onClick={handleOpen}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") handleOpen();
+      }}
+      aria-label="Open wedding invitation"
+      className={`fixed inset-0 z-[100] flex cursor-pointer flex-col items-center justify-center bg-[#f6f3ee] px-4 transition-all duration-700 select-none ${
+        isFadeOut ? "pointer-events-none scale-105 opacity-0 blur-sm" : "opacity-100"
+      }`}
     >
-      {variant === "envelope" && (
-        <>
-          <span
-            className={`absolute inset-x-0 top-0 h-1/2 ${ease} ${
-              opening ? "-translate-y-full" : ""
+      {/* Background ambient texture / subtle gradient */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.7)_0%,rgba(238,233,224,0.95)_100%)]" />
+
+      {/* Header prompt */}
+      <div
+        className={`relative z-20 mb-8 sm:mb-12 text-center transition-all duration-500 ${
+          opening ? "opacity-0 -translate-y-4" : "opacity-100"
+        }`}
+      >
+        <p className="font-sans text-[0.65rem] tracking-[0.55em] text-ink/70 uppercase sm:text-xs">
+          You are invited
+        </p>
+      </div>
+
+      {/* 3D Envelope Container */}
+      <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[460px] md:max-w-[520px] aspect-[1.45/1] [perspective:1400px]">
+        {/* Envelope Body / Base */}
+        <div className="relative h-full w-full rounded-md bg-[#e8e2d5] shadow-[0_25px_60px_-15px_rgba(90,75,60,0.35)] overflow-visible">
+          
+          {/* Inner Envelope Lining with subtle gold shimmer */}
+          <div className="absolute inset-0 rounded-md bg-[#ded5c5] [clip-path:polygon(0_0,100%_0,100%_100%,0_100%)] shadow-inner" />
+
+          {/* Invitation Card Inside that rises up */}
+          <div
+            className={`absolute inset-x-4 top-2 h-[90%] rounded-sm border border-gold/30 bg-[#faf8f4] p-6 shadow-md transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+              isCardUp
+                ? "-translate-y-[55%] z-15 shadow-[0_30px_50px_-10px_rgba(80,60,40,0.4)]"
+                : "translate-y-0 z-5"
             }`}
           >
-            <span className="absolute inset-0 bg-secondary [clip-path:polygon(0_0,100%_0,100%_60%,50%_100%,0_60%)]" />
-            <span className="absolute inset-x-0 bottom-[24%] flex justify-center px-4">
-              <p className="font-sans text-[0.65rem] tracking-[0.5em] text-ink/70 uppercase text-center">
-                You are invited
+            <div className="flex h-full flex-col items-center justify-center border border-gold/25 p-4 text-center">
+              <span className="font-sans text-[0.55rem] tracking-[0.4em] text-gold uppercase sm:text-[0.65rem]">
+                The Wedding Celebration of
+              </span>
+              <h2 className="mt-2 font-display text-2xl text-ink sm:text-4xl">
+                Aisha <span className="italic text-gold">&amp;</span> Rayan
+              </h2>
+              <div className="my-2 h-px w-16 bg-gold/40" />
+              <p className="font-sans text-[0.6rem] tracking-[0.3em] text-ink/80 uppercase sm:text-xs">
+                12 · 12 · 2026 — Lisbon
               </p>
-            </span>
-          </span>
-          <span
-            className={`absolute inset-x-0 bottom-0 h-1/2 ${ease} ${
-              opening ? "translate-y-full" : ""
+            </div>
+          </div>
+
+          {/* Envelope Pocket Flaps (Left, Right, Bottom) */}
+          {/* Left Flap */}
+          <div className="absolute inset-0 z-10 [clip-path:polygon(0_0,50%_50%,0_100%)] bg-[#eae4d8] shadow-sm" />
+          {/* Right Flap */}
+          <div className="absolute inset-0 z-10 [clip-path:polygon(100%_0,50%_50%,100%_100%)] bg-[#eae4d8] shadow-sm" />
+          {/* Bottom Flap */}
+          <div className="absolute inset-0 z-20 [clip-path:polygon(0_100%,50%_48%,100%_100%)] bg-[#ede7dc] shadow-[0_-4px_16px_rgba(0,0,0,0.06)]" />
+
+          {/* Top Flap - Folds open backwards in 3D */}
+          <div
+            className="absolute inset-x-0 top-0 h-full origin-top transition-transform duration-[850ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+            style={{
+              transformStyle: "preserve-3d",
+              transform: isFlapOpen ? "rotateX(180deg)" : "rotateX(0deg)",
+              zIndex: isFlapOpen ? 4 : 30,
+            }}
+          >
+            {/* Front of Top Flap (when closed) */}
+            <div className="absolute inset-0 [clip-path:polygon(0_0,100%_0,50%_55%)] bg-[#f0ebd9] shadow-md [backface-visibility:hidden]">
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/5" />
+            </div>
+
+            {/* Back of Top Flap (visible when flipped open) */}
+            <div
+              className="absolute inset-0 [clip-path:polygon(0_0,100%_0,50%_55%)] bg-[#e2d9c8] shadow-sm"
+              style={{
+                transform: "rotateY(180deg) rotateZ(180deg)",
+                backfaceVisibility: "hidden",
+              }}
+            />
+          </div>
+
+          {/* Wax Seal affixed to flap tip */}
+          <div
+            className={`absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 z-40 transition-all duration-500 ease-out ${
+              step === "seal-break"
+                ? "scale-125 rotate-12 opacity-80"
+                : isFlapOpen
+                  ? "scale-0 opacity-0 -translate-y-8"
+                  : "scale-100 opacity-100"
             }`}
           >
-            <span className="absolute inset-0 bg-muted [clip-path:polygon(0_40%,50%_0,100%_40%,100%_100%,0_100%)]" />
-            <span className="absolute inset-x-0 top-[10%] flex flex-col items-center gap-6">
-              <Seal pulse={!opening} />
-              <p className="font-display text-2xl italic text-ink">Tap to open</p>
-            </span>
-          </span>
-          <span
-            className={`absolute inset-0 -z-10 bg-background ${ease} ${
-              opening ? "opacity-0" : ""
-            }`}
-          />
-        </>
-      )}
-      {variant === "curtain" && (
-        <>
-          <span
-            className={`absolute inset-y-0 left-0 w-1/2 border-r border-gold/40 bg-secondary ${ease} ${
-              opening ? "-translate-x-full" : ""
-            }`}
-          />
-          <span
-            className={`absolute inset-y-0 right-0 w-1/2 border-l border-gold/40 bg-secondary ${ease} ${
-              opening ? "translate-x-full" : ""
-            }`}
-          />
-        </>
-      )}
-      {variant === "seal" && (
-        <span
-          className={`absolute inset-0 bg-background ${ease}`}
-          style={{ clipPath: opening ? "circle(0% at 50% 50%)" : "circle(150% at 50% 50%)" }}
-        />
-      )}
-      {variant !== "envelope" && (
-        <span className="absolute inset-0 grid place-items-center">{prompt}</span>
-      )}
-    </button>
+            <div className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-gradient-to-br from-[#d4af37] via-[#c5a059] to-[#99732f] shadow-[0_12px_28px_rgba(150,110,40,0.45)] ring-4 ring-[#e5c77e]/60 transition-transform duration-300 hover:scale-105">
+              {/* Seal border ring */}
+              <div className="absolute inset-1.5 rounded-full border border-dashed border-amber-100/40" />
+              {/* Monogram */}
+              <span className="font-display text-2xl sm:text-3xl font-semibold italic text-[#fbf8f2] drop-shadow-sm select-none">
+                A&amp;R
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom prompt */}
+      <div
+        className={`relative z-20 mt-8 sm:mt-12 text-center transition-all duration-500 ${
+          opening ? "opacity-0 translate-y-4" : "opacity-100"
+        }`}
+      >
+        <p className="font-display text-xl sm:text-2xl italic text-ink/80 animate-pulse">
+          Tap to open
+        </p>
+      </div>
+    </div>
   );
 }

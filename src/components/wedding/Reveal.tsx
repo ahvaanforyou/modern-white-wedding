@@ -6,16 +6,23 @@ type RevealProps = {
   className?: string;
   delay?: number;
   direction?: "up" | "left" | "right" | "none";
+  blur?: boolean;
 };
 
-const hidden: Record<NonNullable<RevealProps["direction"]>, string> = {
-  up: "translate-y-10",
-  left: "-translate-x-10",
-  right: "translate-x-10",
+const hiddenDirection: Record<NonNullable<RevealProps["direction"]>, string> = {
+  up: "translate-y-8",
+  left: "-translate-x-8",
+  right: "translate-x-8",
   none: "",
 };
 
-export function Reveal({ children, className, delay = 0, direction = "up" }: RevealProps) {
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  direction = "up",
+  blur = true,
+}: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [shown, setShown] = useState(false);
 
@@ -28,12 +35,15 @@ export function Reveal({ children, className, delay = 0, direction = "up" }: Rev
     }
     const observer = new IntersectionObserver(
       ([entry]) => {
+        // Trigger reveal when scrolling in, and re-trigger/fade smoothly
         if (entry?.isIntersecting) {
           setShown(true);
-          observer.disconnect();
+        } else if (entry && entry.boundingClientRect.top > 0) {
+          // If scrolled above viewport, reset for graceful re-entry
+          setShown(false);
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -42,14 +52,66 @@ export function Reveal({ children, className, delay = 0, direction = "up" }: Rev
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{
+        transitionDelay: `${delay}ms`,
+        transitionDuration: "1000ms",
+      }}
       className={cn(
-        "transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform",
-        shown ? "translate-x-0 translate-y-0 opacity-100 blur-0" : `opacity-0 blur-[2px] ${hidden[direction]}`,
+        "transition-all ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity,filter]",
+        shown
+          ? "translate-x-0 translate-y-0 opacity-100 filter-none"
+          : `opacity-0 ${hiddenDirection[direction]} ${blur ? "blur-md sm:blur-lg" : ""}`,
         className,
       )}
     >
       {children}
     </div>
+  );
+}
+
+// Section wrapper providing continuous smooth scroll entrance & exit fade
+export function SectionFade({
+  children,
+  className,
+  id,
+}: {
+  children: ReactNode;
+  className?: string;
+  id?: string;
+}) {
+  const ref = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.05, rootMargin: "60px 0px 60px 0px" },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      id={id}
+      ref={ref}
+      className={cn(
+        "transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-[opacity,transform]",
+        inView ? "opacity-100 translate-y-0" : "opacity-40 translate-y-4",
+        className,
+      )}
+    >
+      {children}
+    </section>
   );
 }

@@ -1,7 +1,8 @@
 import { FlipClock } from "@/components/wedding/FlipClock";
 import { EventCarousel } from "@/components/wedding/EventCarousel";
-import { Reveal } from "@/components/wedding/Reveal";
+import { Reveal, SectionFade } from "@/components/wedding/Reveal";
 import { CoupleSection } from "@/components/wedding/CoupleSection";
+import { PhotoDump } from "@/components/wedding/PhotoDump";
 import { VenueMap } from "@/components/wedding/VenueMap";
 import { FloralCorner } from "@/components/wedding/FloralAccents";
 import { MusicPlayer } from "@/components/wedding/MusicPlayer";
@@ -64,7 +65,7 @@ export function App() {
       </section>
 
       {/* Countdown */}
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 md:py-32">
+      <SectionFade className="relative overflow-hidden px-4 py-20 sm:px-6 md:py-32">
         <FloralCorner corner="top-right" className="-right-14 -top-10" />
         <FloralCorner corner="bottom-left" className="-bottom-16 -left-16" />
         <Reveal className="relative z-10 mx-auto max-w-6xl text-center">
@@ -76,10 +77,10 @@ export function App() {
             <FlipClock target={WEDDING_DATE} />
           </div>
         </Reveal>
-      </section>
+      </SectionFade>
 
       {/* Story */}
-      <section className="relative overflow-hidden px-6 py-16 md:py-24 border-t border-border/50">
+      <SectionFade className="relative overflow-hidden px-6 py-20 md:py-28 border-t border-border/50">
         <FloralCorner corner="top-left" className="-left-14 -top-10" />
         <FloralCorner corner="bottom-right" className="-bottom-12 -right-12" />
         <div className="relative z-10 mx-auto grid max-w-5xl items-center gap-10 md:grid-cols-2 md:gap-14">
@@ -132,13 +133,16 @@ export function App() {
             </p>
           </Reveal>
         </div>
-      </section>
+      </SectionFade>
 
       {/* Bride & Groom */}
       <CoupleSection />
 
+      {/* Photo Dump Section (Directly Below Bride & Groom) */}
+      <PhotoDump />
+
       {/* Order of the day */}
-      <section className="relative overflow-hidden px-6 py-20 md:py-32 border-t border-border/50">
+      <SectionFade className="relative overflow-hidden px-6 py-20 md:py-32 border-t border-border/50">
         <FloralCorner corner="top-left" className="-left-14 -top-10" />
         <FloralCorner corner="bottom-right" className="-bottom-16 -right-16" />
         <Reveal className="relative z-10 mx-auto mb-12 max-w-2xl text-center sm:mb-14">
@@ -148,10 +152,10 @@ export function App() {
         <Reveal className="relative z-10" delay={120}>
           <EventCarousel />
         </Reveal>
-      </section>
+      </SectionFade>
 
       {/* Venue & details */}
-      <section className="relative overflow-hidden border-t border-border px-6 py-20 md:py-32">
+      <SectionFade className="relative overflow-hidden border-t border-border px-6 py-20 md:py-32">
         <FloralCorner corner="top-right" className="-right-12 -top-8" />
         <FloralCorner corner="bottom-left" className="-bottom-14 -left-14" />
         <div className="relative z-10 mx-auto grid max-w-4xl gap-10 text-center sm:gap-12 md:grid-cols-3 md:text-left">
@@ -174,10 +178,10 @@ export function App() {
         <Reveal className="relative z-10 mt-14 sm:mt-16" delay={120}>
           <VenueMap />
         </Reveal>
-      </section>
+      </SectionFade>
 
       {/* RSVP */}
-      <section className="relative overflow-hidden border-t border-border px-6 py-20 md:py-32">
+      <SectionFade className="relative overflow-hidden border-t border-border px-6 py-20 md:py-32">
         <FloralCorner corner="top-left" className="-left-14 -top-10" />
         <FloralCorner corner="bottom-right" className="-bottom-16 -right-16" />
         <Reveal className="relative z-10 mx-auto mb-10 max-w-2xl text-center sm:mb-12">
@@ -190,7 +194,7 @@ export function App() {
         <Reveal className="relative z-10" delay={120}>
           <RSVPForm />
         </Reveal>
-      </section>
+      </SectionFade>
 
       {/* Closing */}
       <footer className="relative overflow-hidden border-t border-border px-6 py-20 sm:py-24 text-center">
@@ -209,8 +213,10 @@ export function App() {
         </Reveal>
       </footer>
 
-      {/* Audio toggle & Opening intro */}
+      {/* Floating Audio Controller */}
       <MusicPlayer />
+
+      {/* 3D Envelope Intro Gate */}
       <IntroGate />
     </main>
   );
