@@ -40,27 +40,21 @@ export function App() {
         <div className="absolute inset-0 bg-ink/20" />
         <FloralCorner corner="top-left" prominent className="-left-4 -top-3 sm:-left-10 sm:-top-8" />
         <FloralCorner corner="bottom-right" prominent className="-bottom-5 -right-5 sm:-bottom-12 sm:-right-12" />
-        <div className="relative z-10 mx-auto w-full max-w-3xl border border-background/50 bg-background/70 px-6 py-12 text-center shadow-[var(--shadow-soft)] backdrop-blur-md sm:px-12 sm:py-16">
-          <Reveal direction="none">
-            <p className="font-sans text-[0.7rem] tracking-[0.5em] text-ink/75 uppercase">
-              Together with their families
+        <div className="relative z-10 mx-auto w-full max-w-3xl border border-background/50 bg-background/80 px-6 py-9 sm:py-16 text-center shadow-[var(--shadow-soft)] backdrop-blur-md animate-fade-in">
+          <p className="font-sans text-[0.7rem] tracking-[0.5em] text-ink/75 uppercase">
+            Together with their families
+          </p>
+          <h1 className="mt-5 sm:mt-7 text-center font-display text-4xl min-[400px]:text-5xl sm:text-6xl md:text-7xl leading-[1.05] text-ink">
+            Aisha
+            <span className="mx-2.5 sm:mx-3 italic text-gold">&amp;</span>
+            Rayan
+          </h1>
+          <div className="mt-6 sm:mt-8 flex flex-col items-center gap-3 sm:gap-4">
+            <Divider />
+            <p className="font-sans text-[0.75rem] sm:text-xs tracking-[0.35em] text-ink/85 uppercase">
+              12 · 12 · 2026 — Villa Serena
             </p>
-          </Reveal>
-          <Reveal delay={200} direction="none">
-            <h1 className="mt-7 text-center font-display text-5xl leading-[1.05] text-ink sm:text-6xl md:text-7xl">
-              Aisha
-              <span className="mx-3 italic text-gold">&amp;</span>
-              Rayan
-            </h1>
-          </Reveal>
-          <Reveal delay={400} direction="none">
-            <div className="mt-9 flex flex-col items-center gap-4">
-              <Divider />
-              <p className="font-sans text-xs tracking-[0.35em] text-ink/85 uppercase sm:text-sm">
-                12 · 12 · 2026 — Villa Serena
-              </p>
-            </div>
-          </Reveal>
+          </div>
         </div>
       </section>
 

@@ -24,27 +24,33 @@ export function Reveal({
   blur = true,
 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
+  const [shown, setShown] = useState(true); // Default true so content is never accidentally lost
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setShown(true);
       return;
     }
+
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight + 100 && rect.bottom > -50) {
+      setShown(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Trigger reveal when scrolling in, and re-trigger/fade smoothly
         if (entry?.isIntersecting) {
           setShown(true);
-        } else if (entry && entry.boundingClientRect.top > 0) {
-          // If scrolled above viewport, reset for graceful re-entry
-          setShown(false);
+          observer.disconnect();
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+      { threshold: 0.05, rootMargin: "60px 0px 60px 0px" },
     );
+
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
@@ -54,7 +60,7 @@ export function Reveal({
       ref={ref}
       style={{
         transitionDelay: `${delay}ms`,
-        transitionDuration: "1000ms",
+        transitionDuration: "800ms",
       }}
       className={cn(
         "transition-all ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity,filter]",
@@ -80,11 +86,12 @@ export function SectionFade({
   id?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
-  const [inView, setInView] = useState(false);
+  const [inView, setInView] = useState(true); // Default true so sections are always visible
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setInView(true);
       return;
@@ -92,9 +99,11 @@ export function SectionFade({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setInView(entry.isIntersecting);
+        if (entry?.isIntersecting) {
+          setInView(true);
+        }
       },
-      { threshold: 0.05, rootMargin: "60px 0px 60px 0px" },
+      { threshold: 0.02, rootMargin: "80px 0px 80px 0px" },
     );
 
     observer.observe(el);
@@ -106,8 +115,8 @@ export function SectionFade({
       id={id}
       ref={ref}
       className={cn(
-        "transition-all duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-[opacity,transform]",
-        inView ? "opacity-100 translate-y-0" : "opacity-40 translate-y-4",
+        "transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-[opacity,transform]",
+        inView ? "opacity-100 translate-y-0" : "opacity-60 translate-y-2",
         className,
       )}
     >
