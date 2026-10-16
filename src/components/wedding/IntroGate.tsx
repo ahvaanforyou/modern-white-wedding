@@ -33,7 +33,7 @@ export function IntroGate() {
       type="button"
       onClick={handleOpen}
       aria-label="Open the invitation"
-      className="fixed inset-0 z-[100] block h-full w-full cursor-pointer overflow-hidden text-left select-none"
+      className="fixed inset-0 z-[100] flex items-center justify-center h-full w-full max-w-full cursor-pointer overflow-hidden select-none"
     >
       {/* Top Half Flap (Original darker tone with clear crease lines) */}
       <span
@@ -152,7 +152,7 @@ export function IntroGate() {
 
       {/* Centered Wax Seal & Typography */}
       <div
-        className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-7 text-center ${ease} ${
+        className={`relative z-20 flex flex-col items-center gap-7 text-center ${ease} ${
           opening ? "scale-90 opacity-0 pointer-events-none" : "scale-100 opacity-100"
         }`}
       >
